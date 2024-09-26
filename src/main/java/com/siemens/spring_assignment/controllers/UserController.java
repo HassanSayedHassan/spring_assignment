@@ -6,6 +6,7 @@ import com.siemens.spring_assignment.domains.dtos.TeacherDto;
 import com.siemens.spring_assignment.domains.dtos.UserLoginDto;
 import com.siemens.spring_assignment.domains.entities.UserEntity;
 import com.siemens.spring_assignment.domains.entities.UserEntity;
+import com.siemens.spring_assignment.services.TeacherServices;
 import com.siemens.spring_assignment.services.UserServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,15 +38,6 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null));
     }
 
-    @GetMapping("/teachers")
-    public List<TeacherDto> getTeachers() {
-        return userServices.getAllTeachers();
-    }
-
-    @GetMapping("/students")
-    public List<StudentDto> getStudents() {
-        return userServices.getAllStudents();
-    }
 
     /*
         @PostMapping("/login")

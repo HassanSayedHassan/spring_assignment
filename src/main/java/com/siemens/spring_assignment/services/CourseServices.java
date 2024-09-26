@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CourseServices {
@@ -28,5 +29,36 @@ public class CourseServices {
 
     public List<CourseDto> getAllCourses() {
         return courseRepository.findAll().stream().map(courseMapper::toDto).toList();
+    }
+
+    public boolean deleteCourse(Long id) {
+        if (courseRepository.existsById(id)) {
+            courseRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean updateCourse(Long id, CourseDto courseDto) {
+        Optional<CourseEntity> existingCourse = courseRepository.findById(id);
+
+        if (existingCourse.isPresent()) {
+            CourseEntity course = existingCourse.get();
+
+            // Only update fields if they are provided in the DTO (non-null)
+            if (courseDto.getName() != null) {
+                course.setName(courseDto.getName());
+            }
+            if (courseDto.getRegistrationDate() != null) {
+                course.setRegistrationDate(courseDto.getRegistrationDate());
+            }
+            // Add other fields to be updated as needed
+
+            courseRepository.save(course); // Save the updated course to the database
+            return true;
+        } else {
+            return false;
+        }
     }
 }

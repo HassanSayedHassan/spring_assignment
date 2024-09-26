@@ -1,10 +1,7 @@
 package com.siemens.spring_assignment.domains.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,8 +9,7 @@ import java.util.Set;
 @Entity
 @Table(name = "student")
 @NoArgsConstructor
-@Setter
-@Getter
+@Data
 public class StudentEntity extends UserEntity {
 
 
@@ -25,8 +21,5 @@ public class StudentEntity extends UserEntity {
     )
     private Set<CourseEntity> courses = new HashSet<>(); // List of courses the student is enrolled in
 
-    public StudentEntity(UserEntity userEntity) {
-        super(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPassword(), userEntity.isActive(), userEntity.getRole());
-        this.courses=new HashSet<>();
-    }
+
 }

@@ -8,8 +8,7 @@ import lombok.*;
 @Entity
 @Table(name = "teachers")
 @NoArgsConstructor
-@Setter
-@Getter
+@Data
 public class TeacherEntity extends UserEntity {
 
     public TeacherEntity(UserEntity userEntity) {
