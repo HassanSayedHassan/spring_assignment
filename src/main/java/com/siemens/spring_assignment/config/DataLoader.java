@@ -4,6 +4,7 @@ import com.siemens.spring_assignment.domains.entities.CourseEntity;
 import com.siemens.spring_assignment.domains.entities.StudentEntity;
 import com.siemens.spring_assignment.domains.entities.TeacherEntity;
 import com.siemens.spring_assignment.repository.CourseRepository;
+import com.siemens.spring_assignment.repository.StudentRepository;
 import com.siemens.spring_assignment.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,12 +17,14 @@ import java.util.List;
 public class DataLoader implements CommandLineRunner {
 
     private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
 
     @Autowired
-    public DataLoader(UserRepository userRepository, CourseRepository courseRepository) {
+    public DataLoader(UserRepository userRepository, CourseRepository courseRepository,StudentRepository studentRepository) {
         this.userRepository = userRepository;
         this.courseRepository = courseRepository;
+        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -41,6 +44,7 @@ public class DataLoader implements CommandLineRunner {
             teacher1.setLastName("Doe");
             teacher1.setActive(true);
             teacher1.setRole("teacher");
+            teacher1.setCourse(CourseEntity.builder().name("c++").registrationDate(new Timestamp(System.currentTimeMillis())).build());
             userRepository.save(teacher1);
 
             TeacherEntity teacher2 = new TeacherEntity();
@@ -50,6 +54,7 @@ public class DataLoader implements CommandLineRunner {
             teacher2.setLastName("Brown");
             teacher2.setActive(true);
             teacher2.setRole("teacher");
+            teacher2.setCourse(CourseEntity.builder().name("python").registrationDate(new Timestamp(System.currentTimeMillis())).build());
             userRepository.save(teacher2);
 
 
@@ -69,7 +74,11 @@ public class DataLoader implements CommandLineRunner {
             student1.setLastName("Smith");
             student1.setActive(true);
             student1.setRole("student");
-            userRepository.save(student1);
+            student1.addCourse(CourseEntity.builder().name("java").registrationDate(new Timestamp(System.currentTimeMillis())).build());
+            student1.addCourse(CourseEntity.builder().name("c++").registrationDate(new Timestamp(System.currentTimeMillis())).build());
+            StudentEntity savedStudent = userRepository.save(student1);
+           var student = studentRepository.findById(4L);
+            System.out.println("Saved Student: " + savedStudent.toString());
 
 
             StudentEntity student2 = new StudentEntity();

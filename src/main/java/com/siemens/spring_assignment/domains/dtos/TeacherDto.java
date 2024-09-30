@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TeacherDto extends UserDto {
 
-    private String role;
+    private CourseDto course;
 
 }

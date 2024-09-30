@@ -94,7 +94,7 @@ public class StudentServices {
         Optional<StudentEntity> studentEntity = studentRepository.findById(studentId);
         Optional<CourseEntity> courseEntity = courseRepository.findById(courseId);
         if (studentEntity.isPresent() && courseEntity.isPresent()) {
-            studentEntity.get().getCourses().add(courseEntity.get());
+            studentEntity.get().addCourse(courseEntity.get());
             return studentMapper.toDto(studentRepository.save(studentEntity.get()));
         }
         throw new IllegalArgumentException("Student or Course not found");

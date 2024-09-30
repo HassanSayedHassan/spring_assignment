@@ -1,9 +1,11 @@
 package com.siemens.spring_assignment.services;
 
 
+import com.siemens.spring_assignment.domains.dtos.CourseDto;
 import com.siemens.spring_assignment.domains.dtos.StudentDto;
 import com.siemens.spring_assignment.domains.dtos.TeacherDto;
 import com.siemens.spring_assignment.domains.dtos.UserLoginDto;
+import com.siemens.spring_assignment.domains.entities.CourseEntity;
 import com.siemens.spring_assignment.domains.entities.StudentEntity;
 import com.siemens.spring_assignment.domains.entities.TeacherEntity;
 import com.siemens.spring_assignment.domains.entities.UserEntity;
@@ -22,10 +24,13 @@ public class TeacherServices {
 
     private TeacherRepository teacherRepository;
     private Mapper<TeacherEntity, TeacherDto> teacherMapper;
+    private Mapper<CourseEntity, CourseDto> courseMapper;
     @Autowired
-    public TeacherServices(TeacherRepository teacherRepository, Mapper<TeacherEntity, TeacherDto> teacherMapper) {
+    public TeacherServices(TeacherRepository teacherRepository, Mapper<TeacherEntity, TeacherDto> teacherMapper,
+                           Mapper<CourseEntity, CourseDto> courseMapper) {
         this.teacherRepository = teacherRepository;
         this.teacherMapper = teacherMapper;
+        this.courseMapper = courseMapper;
     }
 
 
@@ -79,8 +84,9 @@ public class TeacherServices {
             if(teacherDto.getRole() != null){
                 teacherEntity.get().setRole(teacherDto.getRole());
             }
-
-
+            if(teacherDto.getCourse() != null){
+                teacherEntity.get().setCourse(courseMapper.toEntity(teacherDto.getCourse()));
+            }
             teacherRepository.save(teacherEntity.get());
             return true;
         }

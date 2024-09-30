@@ -1,8 +1,7 @@
 package com.siemens.spring_assignment.domains.entities;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -11,8 +10,12 @@ import lombok.*;
 @Data
 public class TeacherEntity extends UserEntity {
 
-    public TeacherEntity(UserEntity userEntity) {
-        super(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPassword(), userEntity.isActive(), userEntity.getRole());
-    }
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    private CourseEntity course;
+
+
+
 
 }

@@ -13,13 +13,22 @@ import java.util.Set;
 public class StudentEntity extends UserEntity {
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REFRESH,CascadeType.DETACH})
     @JoinTable(
-            name = "student_course", // Name of the join table
-            joinColumns = @JoinColumn(name = "student_id"), // Foreign key for StudentEntity
-            inverseJoinColumns = @JoinColumn(name = "course_id") // Foreign key for CourseEntity
+            name = "student_course",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private Set<CourseEntity> courses = new HashSet<>(); // List of courses the student is enrolled in
 
+   public void addCourse(CourseEntity course) {
+        if(courses == null) {
+            courses = new HashSet<>();
+        }
+        if(courses.contains(course)) {
+            return;
+        }
+        courses.add(course);
+    }
 
 }

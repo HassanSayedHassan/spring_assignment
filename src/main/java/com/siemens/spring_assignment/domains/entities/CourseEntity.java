@@ -22,8 +22,11 @@ public class CourseEntity {
 
     private String name;
 
-    @ManyToMany(mappedBy = "courses") // This tells JPA that this side is inverse of the relationship
-    private Set<StudentEntity> students = new HashSet<>(); // List of students enrolled in this course
+    @OneToMany(mappedBy = "course",fetch = FetchType.LAZY)
+    private Set<TeacherEntity> teachers;
+
+   @ManyToMany(mappedBy = "courses")
+    private Set<StudentEntity> students = new HashSet<>();
 
     @Column(name = "registration_date")
     private Date registrationDate;
